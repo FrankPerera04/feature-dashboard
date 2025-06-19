@@ -44,65 +44,14 @@ export default function CompetitorAnalysisApp() {
   const [isLoading, setIsLoading] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
 
-  // Mock API call
-  const mockAnalysisAPI = async (title: string, description: string): Promise<AnalysisResult> => {
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    return {
-      feature: { title, description },
-      competitors: [
-        {
-          name: "CompetitorOne",
-          description: "Leading solution in the market with comprehensive features",
-          marketShare: 35,
-          rating: 4.5,
-          pricing: "$99/month",
-          keyFeatures: ["Advanced Analytics", "Real-time Sync", "API Integration", "Custom Reports"],
-          strengths: ["Market leader", "Robust feature set", "Strong customer support"],
-          weaknesses: ["Higher pricing", "Complex setup", "Limited customization"],
-          website: "https://competitorone.com",
-        },
-        {
-          name: "CompetitorTwo",
-          description: "Affordable alternative with focus on small businesses",
-          marketShare: 22,
-          rating: 4.2,
-          pricing: "$49/month",
-          keyFeatures: ["Basic Analytics", "Cloud Storage", "Mobile App", "Email Support"],
-          strengths: ["Competitive pricing", "User-friendly", "Good for SMBs"],
-          weaknesses: ["Limited features", "Slower updates", "Basic reporting"],
-          website: "https://competitortwo.com",
-        },
-        {
-          name: "CompetitorThree",
-          description: "Enterprise-focused solution with advanced security",
-          marketShare: 18,
-          rating: 4.7,
-          pricing: "$299/month",
-          keyFeatures: ["Enterprise Security", "Advanced Workflows", "Custom Integration", "24/7 Support"],
-          strengths: ["Enterprise-grade", "High security", "Excellent support"],
-          weaknesses: ["Very expensive", "Overkill for SMBs", "Steep learning curve"],
-          website: "https://competitorthree.com",
-        },
-      ],
-      marketInsights: {
-        totalMarketSize: "$2.4B",
-        growthRate: "12.5% YoY",
-        keyTrends: [
-          "Increasing demand for AI-powered features",
-          "Shift towards mobile-first solutions",
-          "Growing emphasis on data privacy",
-          "Integration with existing workflows",
-        ],
-      },
-      recommendations: [
-        "Focus on competitive pricing to capture market share",
-        "Emphasize unique value proposition in AI capabilities",
-        "Consider freemium model to attract small businesses",
-        "Invest in mobile experience to match market trends",
-      ],
-    }
+  const realAnalysisAPI = async (title: string, description: string): Promise<AnalysisResult> => {
+    const res = await fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ featureTitle: title, featureDescription: description }),
+    });
+    if (!res.ok) throw new Error("Failed to fetch analysis");
+    return res.json();
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -111,7 +60,7 @@ export default function CompetitorAnalysisApp() {
 
     setIsLoading(true)
     try {
-      const result = await mockAnalysisAPI(featureTitle, featureDescription)
+      const result = await realAnalysisAPI(featureTitle, featureDescription)
       setAnalysisResult(result)
     } catch (error) {
       console.error("Analysis failed:", error)
