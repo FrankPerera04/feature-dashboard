@@ -69,16 +69,28 @@ Feature Description: ${featureDescription}
     const data = await response.json();
 
     let result;
+    let content = data.choices[0].message.content;
+    console.log("OpenAI raw content:", content);
+
+    // Remove markdown code block if present
+    const jsonMatch = content.match(/```json\s*([\s\S]*?)```/i) || content.match(/```([\s\S]*?)```/i);
+    if (jsonMatch) {
+      content = jsonMatch[1];
+    }
+
     try {
-      result = JSON.parse(data.choices[0].message.content);
+      result = JSON.parse(content);
     } catch (e) {
-      console.error("Failed to parse OpenAI response:", data);
-      return NextResponse.json({ error: "Failed to parse response from OpenAI", details: data }, { status: 500 });
+      console.error("Failed to parse OpenAI response:", content);
+      return NextResponse.json({ error: "Failed to parse response from OpenAI", details: content }, { status: 500 });
     }
 
     return NextResponse.json(result);
   } catch (error) {
     console.error("API Route Error:", error);
-    return NextResponse.json({ error: "Internal Server Error", details: error.message }, { status: 500 });
+    const message = typeof error === "object" && error !== null && "message" in error
+      ? (error as { message: string }).message
+      : String(error);
+    return NextResponse.json({ error: "Internal Server Error", details: message }, { status: 500 });
   }
 }
