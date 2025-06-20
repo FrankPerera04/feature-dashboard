@@ -128,40 +128,40 @@ export default function CompetitorAnalysisApp() {
 
   if (analysisResult) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-[var(--color-bg)]">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-6">
             <Button
               onClick={resetForm}
               variant="outline"
-              className="mb-4 border-blue-200 text-blue-700 hover:bg-blue-50"
+              className="mb-4 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               New Analysis
             </Button>
-            <h1 className="text-3xl font-bold text-slate-800 mb-2">Competitor Analysis Results</h1>
-            <p className="text-slate-600">
-              Analysis for: <span className="font-semibold text-blue-700">{analysisResult.feature.title}</span>
+            <h1 className="text-3xl font-bold text-[var(--color-primary)] mb-2">Competitor Analysis Results</h1>
+            <p className="text-[var(--color-text)]">
+              Analysis for: <span className="font-semibold text-[var(--color-primary)]">{analysisResult.feature.title}</span>
             </p>
           </div>
 
           <div ref={analysisRef} className="grid gap-6">
             {/* Market Insights */}
             <div className="flex justify-center mb-8 w-full">
-              <Card className="border-blue-100 shadow-lg w-full">
-                <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+              <Card className="border-[var(--color-primary)] shadow-lg w-full bg-[var(--color-bg)]">
+                <CardHeader className="bg-[var(--color-primary)] text-[var(--color-bg)]">
                   <CardTitle className="flex flex-col items-center justify-center font-bold text-2xl text-center w-full">
-                    <TrendingUp className="w-7 h-7 mb-1" />
+                    <TrendingUp className="w-7 h-7 mb-1 text-[var(--color-bg)]" />
                     <span>Market Insights</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 w-full">
                   {/* Key Market Trends First */}
                   <div className="mb-4 w-full">
-                    <h4 className="font-semibold text-slate-800 mb-2">Key Market Trends</h4>
+                    <h4 className="font-semibold text-[var(--color-text)] mb-2">Key Market Trends</h4>
                     <div className="flex flex-wrap gap-2 w-full">
                       {analysisResult.marketInsights.keyTrends.map((trend, index) => (
-                        <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-800 justify-start p-2 whitespace-normal max-w-full">
+                        <Badge key={index} variant="secondary" className="bg-[var(--color-primary)] text-[var(--color-bg)] justify-start p-2 whitespace-normal max-w-full">
                           {trend}
                         </Badge>
                       ))}
@@ -169,13 +169,13 @@ export default function CompetitorAnalysisApp() {
                   </div>
                   {/* Growth Rate and Number of Competitors */}
                   <div className="grid md:grid-cols-2 gap-4 w-full">
-                    <div className="text-center p-4 bg-purple-50 rounded-lg w-full">
-                      <div className="text-2xl font-bold text-purple-700">{analysisResult.marketInsights.growthRate}</div>
-                      <div className="text-sm text-slate-600">Market Growth Rate</div>
+                    <div className="text-center p-4 bg-[rgba(226,35,26,0.08)] rounded-lg w-full">
+                      <div className="text-2xl font-bold text-[var(--color-primary)]">{analysisResult.marketInsights.growthRate}</div>
+                      <div className="text-sm text-[var(--color-text)]">Market Growth Rate</div>
                     </div>
-                    <div className="text-center p-4 bg-indigo-50 rounded-lg w-full">
-                      <div className="text-2xl font-bold text-indigo-700">{analysisResult.competitors.length}</div>
-                      <div className="text-sm text-slate-600">Number of Competitors Using This Feature</div>
+                    <div className="text-center p-4 bg-[rgba(226,35,26,0.08)] rounded-lg w-full">
+                      <div className="text-2xl font-bold text-[var(--color-primary)]">{analysisResult.competitors.length}</div>
+                      <div className="text-sm text-[var(--color-text)]">Number of Competitors Using This Feature</div>
                     </div>
                   </div>
                 </CardContent>
@@ -184,22 +184,22 @@ export default function CompetitorAnalysisApp() {
 
             {/* Competitors */}
             <div className="grid gap-4">
-              <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <Users className="w-6 h-6 text-blue-600" />
+              <h2 className="text-2xl font-bold text-[var(--color-primary)] flex items-center gap-2">
+                <Users className="w-6 h-6 text-[var(--color-primary)]" />
                 Competitor Analysis
               </h2>
               {analysisResult.competitors.map((competitor, index) => (
-                <Card key={index} className="border-slate-200 shadow-md hover:shadow-lg transition-shadow">
+                <Card key={index} className="border-[var(--color-primary)] shadow-md hover:shadow-lg transition-shadow bg-[var(--color-bg)]">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
-                        <CardTitle className="text-xl text-slate-800">{competitor.name}</CardTitle>
-                        <CardDescription className="mt-1">{competitor.description}</CardDescription>
+                        <CardTitle className="text-xl text-[var(--color-primary)]">{competitor.name}</CardTitle>
+                        <CardDescription className="mt-1 text-[var(--color-text)]">{competitor.description}</CardDescription>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold text-green-600">{competitor.pricing}</div>
-                        <div className="flex items-center gap-1 text-sm text-slate-600">
-                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <div className="text-lg font-bold text-[var(--color-text)]">{competitor.pricing}</div>
+                        <div className="flex items-center gap-1 text-sm text-[var(--color-text)]">
+                          <Star className="w-4 h-4 fill-[var(--color-primary)] text-[var(--color-primary)]" />
                           {competitor.rating}
                         </div>
                       </div>
@@ -208,47 +208,47 @@ export default function CompetitorAnalysisApp() {
                   <CardContent>
                     <div className="space-y-4">
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-1">User Experience</h4>
-                        <p className="text-slate-700 text-sm">{typeof competitor.userExperience === 'string' ? competitor.userExperience : 'No user experience information available.'}</p>
+                        <h4 className="font-semibold text-[var(--color-text)] mb-1">User Experience</h4>
+                        <p className="text-[var(--color-text)] text-sm">{typeof competitor.userExperience === 'string' ? competitor.userExperience : 'No user experience information available.'}</p>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-1">Supported Use Cases</h4>
+                        <h4 className="font-semibold text-[var(--color-text)] mb-1">Supported Use Cases</h4>
                         {Array.isArray(competitor.supportedUseCases) && competitor.supportedUseCases.length > 0 ? (
-                          <ul className="list-disc list-inside text-slate-700 text-sm">
+                          <ul className="list-disc list-inside text-[var(--color-text)] text-sm">
                             {competitor.supportedUseCases.map((useCase, idx) => (
                               <li key={idx}>{useCase}</li>
                             ))}
                           </ul>
                         ) : (
-                          <p className="text-slate-700 text-sm">No supported use cases available.</p>
+                          <p className="text-[var(--color-text)] text-sm">No supported use cases available.</p>
                         )}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-1">Possible Limitations</h4>
+                        <h4 className="font-semibold text-[var(--color-text)] mb-1">Possible Limitations</h4>
                         {Array.isArray(competitor.possibleLimitations) && competitor.possibleLimitations.length > 0 ? (
-                          <ul className="list-disc list-inside text-slate-700 text-sm">
+                          <ul className="list-disc list-inside text-[var(--color-text)] text-sm">
                             {competitor.possibleLimitations.map((limitation, idx) => (
                               <li key={idx}>{limitation}</li>
                             ))}
                           </ul>
                         ) : (
-                          <p className="text-slate-700 text-sm">No limitations information available.</p>
+                          <p className="text-[var(--color-text)] text-sm">No limitations information available.</p>
                         )}
                       </div>
                     </div>
                     <Separator className="my-4" />
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-slate-600">Market Share:</span>
-                        <div className="w-32 bg-slate-200 rounded-full h-2">
+                        <span className="text-sm text-[var(--color-text)]">Market Share:</span>
+                        <div className="w-32 bg-[rgba(226,35,26,0.08)] rounded-full h-2">
                           <div
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full"
+                            className="bg-[var(--color-primary)] h-2 rounded-full"
                             style={{ width: `${competitor.marketShare}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm font-semibold text-slate-700">{competitor.marketShare}%</span>
+                        <span className="text-sm font-semibold text-[var(--color-primary)]">{competitor.marketShare}%</span>
                       </div>
-                      <Button variant="outline" size="sm" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+                      <Button variant="outline" size="sm" className="border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]">
                         <ExternalLink className="w-4 h-4 mr-1" />
                         Visit Site
                       </Button>
@@ -264,14 +264,14 @@ export default function CompetitorAnalysisApp() {
             <Button
               onClick={downloadPDF}
               variant="outline"
-              className="border-blue-200 text-blue-700 hover:bg-blue-50"
+              className="border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]"
             >
               <Download className="w-4 h-4 mr-2" />
               Download PDF Report
             </Button>
             <Button
               onClick={generateSolution}
-              className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-medium py-3 px-8 text-lg"
+              className="bg-[var(--color-primary)] hover:bg-[#b81a13] text-[var(--color-bg)] font-medium py-3 px-8 text-lg"
             >
               Generate Solution
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -283,30 +283,30 @@ export default function CompetitorAnalysisApp() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-[var(--color-bg)]">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-[var(--color-primary)] rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-[var(--color-bg)]" />
             </div>
-            <h1 className="text-4xl font-bold text-slate-800 mb-2">Smart Product Assistant</h1>
-            <p className="text-lg text-slate-600">
+            <h1 className="text-4xl font-bold text-[var(--color-primary)] mb-2">Smart Product Assistant</h1>
+            <p className="text-lg text-[var(--color-text)]">
               BA dashboard to help implement new features for Applova.io
             </p>
           </div>
 
-          <Card className="shadow-xl border-slate-200">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+          <Card className="shadow-xl border-[var(--color-primary)] bg-[var(--color-bg)]">
+            <CardHeader className="bg-[var(--color-primary)] text-[var(--color-bg)]">
               <CardTitle className="text-xl">Feature Analysis Request</CardTitle>
-              <CardDescription className="text-blue-100">
+              <CardDescription className="text-[var(--color-bg)]">
                 Provide details about the feature you want to analyze
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-slate-700 font-medium">
+                  <Label htmlFor="title" className="text-[var(--color-text)] font-medium">
                     Feature Title *
                   </Label>
                   <Input
@@ -314,13 +314,13 @@ export default function CompetitorAnalysisApp() {
                     value={featureTitle}
                     onChange={(e) => setFeatureTitle(e.target.value)}
                     placeholder="e.g., AI-Powered Customer Support Chatbot"
-                    className="border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+                    className="border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] bg-[var(--color-bg)] text-[var(--color-text)]"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description" className="text-slate-700 font-medium">
+                  <Label htmlFor="description" className="text-[var(--color-text)] font-medium">
                     Feature Description *
                   </Label>
                   <Textarea
@@ -328,7 +328,7 @@ export default function CompetitorAnalysisApp() {
                     value={featureDescription}
                     onChange={(e) => setFeatureDescription(e.target.value)}
                     placeholder="Describe the key functionality, target users, and main benefits of this feature..."
-                    className="border-slate-300 focus:border-blue-500 focus:ring-blue-500 min-h-[120px]"
+                    className="border-[var(--color-primary)] focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] min-h-[120px] bg-[var(--color-bg)] text-[var(--color-text)]"
                     required
                   />
                 </div>
@@ -336,7 +336,7 @@ export default function CompetitorAnalysisApp() {
                 <Button
                   type="submit"
                   disabled={isLoading || !featureTitle.trim() || !featureDescription.trim()}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3"
+                  className="w-full bg-[var(--color-primary)] hover:bg-[#b81a13] text-[var(--color-bg)] font-medium py-3"
                 >
                   {isLoading ? (
                     <>
@@ -354,7 +354,7 @@ export default function CompetitorAnalysisApp() {
             </CardContent>
           </Card>
 
-          <div className="mt-8 text-center text-sm text-slate-500">
+          <div className="mt-8 text-center text-sm text-[var(--color-text)]">
             <p>Our AI will analyze your feature against market competitors and provide strategic insights</p>
           </div>
         </div>
