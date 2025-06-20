@@ -11,35 +11,56 @@ export async function POST(req: NextRequest) {
     const { featureTitle, featureDescription } = await req.json();
 
     const prompt = `
-You are an expert in restaurant Point of Sale (POS) systems and specifically knowledgeable about Applova.io. Analyze the feature described below and provide a comprehensive solution for integrating it into Applova in the following JSON format:
+You are a market-research specialist focused on SaaS point-of-sale (POS) platforms for merchants in the United States, and you know Applova.io's current product lineup inside and out.  Your task is to analyze the feature described below in the context of Applova's existing capabilities:
 
+1. **What Applova Already Offers:** Identify any existing Applova modules or integrations that overlap with or support this feature.  
+2. **Gaps & Opportunities:** Highlight functionality that Applova does not yet have but would need to build or integrate.  
+3. **Proposed Solution:** Suggest a practical, detailed way Applova could design or roll out this feature, based on industry best practices. Return this as a single paragraph or string under 'proposedSolution'.
+
+Then, conduct a DEEP competitor analysis—using up-to-date research with source links—structured in JSON exactly as follows:
+
+(JSON format)
 {
   "feature": {
-    "title": "...",
-    "description": "..."
+    "title": "<Feature Title>",
+    "description": "<Feature Description>"
   },
-  "applovaCurrent": {
-    "existingFeatures": ["..."],
-    "strengths": ["..."]
+  "applovaContext": {
+    "existingCapabilities": [
+      // e.g. "Integrated loyalty program supporting tiered rewards"
+    ],
+    "gaps": [
+      // e.g. "No offline-first functionality for unreliable connections"
+    ],
+    "proposedSolution": "A detailed, practical solution paragraph for how Applova could implement this feature."
   },
-  "missingComponents": ["..."],
-  "proposedSolution": {
-    "overview": "...",
-    "implementation": ["..."],
-    "benefits": ["..."]
-  },
-  "keyTakeaways": ["..."]
+  "competitors": [
+    {
+      "name": "...",
+      "description": "...",
+      "marketShare": ...,
+      "rating": ...,
+      "pricing": "...",
+      "userExperience": "A detailed paragraph describing usability, interface flow, customer reviews (with source links).",
+      "supportedUseCases": [
+        "A detailed, contextual use case description with examples and source links."
+      ],
+      "possibleLimitations": [
+        "A detailed limitation analysis with context, examples, and source links."
+      ],
+      "website": "..."
+    }
+    // …additional competitors…
+  ],
+  "marketInsights": {
+    "totalMarketSize": "...",
+    "growthRate": "...",
+    "keyTrends": ["...", "..."]
+  }
 }
 
 Feature Title: ${featureTitle}
 Feature Description: ${featureDescription}
-
-Focus on:
-1. What Applova already has that's relevant
-2. What's missing to implement this feature
-3. How to integrate it seamlessly with existing functionality
-4. Benefits this will bring to Applova users
-5. Key implementation considerations
 `;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {

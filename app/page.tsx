@@ -146,42 +146,6 @@ export default function CompetitorAnalysisApp() {
           </div>
 
           <div ref={analysisRef} className="grid gap-6">
-            {/* Market Insights */}
-            <div className="flex justify-center mb-8 w-full">
-              <Card className="border-[var(--color-primary)] shadow-lg w-full bg-[var(--color-bg)]">
-                <CardHeader className="bg-[var(--color-primary)] text-[var(--color-bg)]">
-                  <CardTitle className="flex flex-col items-center justify-center font-bold text-2xl text-center w-full">
-                    <TrendingUp className="w-7 h-7 mb-1 text-[var(--color-bg)]" />
-                    <span>Market Insights</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 w-full">
-                  {/* Key Market Trends First */}
-                  <div className="mb-4 w-full">
-                    <h4 className="font-semibold text-[var(--color-text)] mb-2">Key Market Trends</h4>
-                    <div className="flex flex-wrap gap-2 w-full">
-                      {analysisResult.marketInsights.keyTrends.map((trend, index) => (
-                        <Badge key={index} variant="secondary" className="bg-[var(--color-primary)] text-[var(--color-bg)] justify-start p-2 whitespace-normal max-w-full">
-                          {trend}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Growth Rate and Number of Competitors */}
-                  <div className="grid md:grid-cols-2 gap-4 w-full">
-                    <div className="text-center p-4 bg-[rgba(226,35,26,0.08)] rounded-lg w-full">
-                      <div className="text-2xl font-bold text-[var(--color-primary)]">{analysisResult.marketInsights.growthRate}</div>
-                      <div className="text-sm text-[var(--color-text)]">Market Growth Rate</div>
-                    </div>
-                    <div className="text-center p-4 bg-[rgba(226,35,26,0.08)] rounded-lg w-full">
-                      <div className="text-2xl font-bold text-[var(--color-primary)]">{analysisResult.competitors.length}</div>
-                      <div className="text-sm text-[var(--color-text)]">Number of Competitors Using This Feature</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
             {/* Competitors */}
             <div className="grid gap-4">
               <h2 className="text-2xl font-bold text-[var(--color-primary)] flex items-center gap-2">
@@ -237,22 +201,7 @@ export default function CompetitorAnalysisApp() {
                       </div>
                     </div>
                     <Separator className="my-4" />
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-[var(--color-text)]">Market Share:</span>
-                        <div className="w-32 bg-[rgba(226,35,26,0.08)] rounded-full h-2">
-                          <div
-                            className="bg-[var(--color-primary)] h-2 rounded-full"
-                            style={{ width: `${competitor.marketShare}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-sm font-semibold text-[var(--color-primary)]">{competitor.marketShare}%</span>
-                      </div>
-                      <Button variant="outline" size="sm" className="border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]">
-                        <ExternalLink className="w-4 h-4 mr-1" />
-                        Visit Site
-                      </Button>
-                    </div>
+                    {/* Market Share and Visit Site button removed as requested */}
                   </CardContent>
                 </Card>
               ))}

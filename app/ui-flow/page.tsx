@@ -152,7 +152,6 @@ export default function UIFlowPage() {
                 <h4 className="font-semibold text-slate-800 mb-3">Design Concept</h4>
                 <p className="text-slate-700 leading-relaxed">{uiFlowData.designOverview.concept}</p>
               </div>
-              
               <div className="mb-6">
                 <h4 className="font-semibold text-slate-800 mb-3">User Journey</h4>
                 <div className="space-y-2">
@@ -166,7 +165,6 @@ export default function UIFlowPage() {
                   ))}
                 </div>
               </div>
-
               <div>
                 <h4 className="font-semibold text-slate-800 mb-3">Key Screens</h4>
                 <div className="grid md:grid-cols-2 gap-2">
@@ -179,165 +177,24 @@ export default function UIFlowPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
 
-          {/* Responsive Design */}
-          <Card className="border-blue-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white">
-              <CardTitle>Responsive Design Strategy</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-3 gap-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Smartphone className="w-5 h-5 text-blue-600" />
-                    <h4 className="font-semibold text-slate-800">Mobile</h4>
-                  </div>
-                  <div className="space-y-2">
-                    {uiFlowData.responsiveDesign.mobile.map((item, index) => (
-                      <div key={index} className="text-sm text-slate-600 p-2 bg-blue-50 rounded">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Tablet className="w-5 h-5 text-cyan-600" />
-                    <h4 className="font-semibold text-slate-800">Tablet</h4>
-                  </div>
-                  <div className="space-y-2">
-                    {uiFlowData.responsiveDesign.tablet.map((item, index) => (
-                      <div key={index} className="text-sm text-slate-600 p-2 bg-cyan-50 rounded">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Monitor className="w-5 h-5 text-indigo-600" />
-                    <h4 className="font-semibold text-slate-800">Desktop</h4>
-                  </div>
-                  <div className="space-y-2">
-                    {uiFlowData.responsiveDesign.desktop.map((item, index) => (
-                      <div key={index} className="text-sm text-slate-600 p-2 bg-indigo-50 rounded">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Figma Specifications */}
-          <Card className="border-green-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
-              <CardTitle>Figma Design Specifications</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold text-slate-800 mb-3">Color Palette</h4>
-                  <div className="space-y-2">
-                    {uiFlowData.figmaSpecs.colors.map((color, index) => (
-                      <Badge key={index} variant="outline" className="border-green-200 text-green-700">
-                        {color}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-slate-800 mb-3">Typography</h4>
-                  <div className="space-y-2">
-                    {uiFlowData.figmaSpecs.typography.map((type, index) => (
-                      <Badge key={index} variant="outline" className="border-emerald-200 text-emerald-700">
-                        {type}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-slate-800 mb-3">Components</h4>
-                  <div className="space-y-2">
-                    {uiFlowData.figmaSpecs.components.map((component, index) => (
-                      <div key={index} className="text-sm text-slate-600 p-2 bg-green-50 rounded">
-                        {component}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-slate-800 mb-3">Interactions</h4>
-                  <div className="space-y-2">
-                    {uiFlowData.figmaSpecs.interactions.map((interaction, index) => (
-                      <div key={index} className="text-sm text-slate-600 p-2 bg-emerald-50 rounded">
-                        {interaction}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Accessibility & Implementation */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border-orange-100 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-orange-500 to-amber-600 text-white">
-                <CardTitle>Accessibility Features</CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-2">
-                  {uiFlowData.accessibility.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-2 p-2 bg-orange-50 rounded">
-                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-sm text-slate-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-teal-100 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
-                <CardTitle>Implementation Notes</CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-2">
-                  {uiFlowData.implementationNotes.map((note, index) => (
-                    <div key={index} className="flex items-start gap-2 p-2 bg-teal-50 rounded">
-                      <div className="w-1.5 h-1.5 bg-teal-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-sm text-slate-700">{note}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-4">
-            <Button
-              variant="outline"
-              className="border-blue-200 text-blue-700 hover:bg-blue-50"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Figma File
-            </Button>
-            <Button
-              onClick={handleAcceptUIFlow}
-              className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-medium py-3 px-8 text-lg"
-            >
-              Accept UI Design & Generate User Story
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
+        {/* Action Buttons */}
+        <div className="flex justify-center gap-4">
+          <Button
+            variant="outline"
+            className="border-blue-200 text-blue-700 hover:bg-blue-50"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download Figma File
+          </Button>
+          <Button
+            onClick={handleAcceptUIFlow}
+            className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-medium py-3 px-8 text-lg"
+          >
+            Accept UI Design & Generate User Story
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
         </div>
       </div>
     </div>

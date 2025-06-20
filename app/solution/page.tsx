@@ -14,17 +14,17 @@ interface SolutionData {
     title: string
     description: string
   }
-  applovaCurrent: {
-    existingFeatures: string[]
-    strengths: string[]
+  applovaContext: {
+    existingCapabilities: string[]
+    gaps: string[]
+    recommendations: string[]
   }
-  missingComponents: string[]
-  proposedSolution: {
-    overview: string
-    implementation: string[]
-    benefits: string[]
+  competitors: any[]
+  marketInsights: {
+    totalMarketSize: string
+    growthRate: string
+    keyTrends: string[]
   }
-  keyTakeaways: string[]
 }
 
 export default function SolutionPage() {
@@ -134,113 +134,43 @@ export default function SolutionPage() {
             <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5" />
-                Current Applova Capabilities
+                Possible Solution
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="mb-6">
-                <h4 className="font-semibold text-slate-800 mb-3">Existing Features</h4>
+                <h4 className="font-semibold text-slate-800 mb-3">Existing Capabilities</h4>
                 <div className="grid md:grid-cols-2 gap-2">
-                  {solutionData.applovaCurrent.existingFeatures.map((feature, index) => (
+                  {solutionData.applovaContext.existingCapabilities.map((capability, index) => (
                     <Badge key={index} variant="secondary" className="bg-green-100 text-green-800 justify-start p-2">
                       <CheckCircle className="w-3 h-3 mr-1" />
-                      {feature}
+                      {capability}
                     </Badge>
                   ))}
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-slate-800 mb-3">Current Strengths</h4>
+                <h4 className="font-semibold text-slate-800 mb-3">Gaps</h4>
                 <div className="space-y-2">
-                  {solutionData.applovaCurrent.strengths.map((strength, index) => (
-                    <div key={index} className="flex items-start gap-2 p-2 bg-green-50 rounded-lg">
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-slate-700">{strength}</span>
+                  {solutionData.applovaContext.gaps.map((gap, index) => (
+                    <div key={index} className="flex items-start gap-2 p-2 bg-orange-50 rounded-lg">
+                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-slate-700">{gap}</span>
                     </div>
                   ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Missing Components */}
-          <Card className="border-orange-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-orange-500 to-red-600 text-white">
-              <CardTitle className="flex items-center gap-2">
-                <Plus className="w-5 h-5" />
-                Missing Components
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-3">
-                {solutionData.missingComponents.map((component, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg">
-                    <div className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {index + 1}
-                    </div>
-                    <p className="text-slate-700">{component}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Proposed Solution */}
-          <Card className="border-green-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-green-500 to-teal-600 text-white">
-              <CardTitle className="flex items-center gap-2">
-                <Lightbulb className="w-5 h-5" />
-                Proposed Solution
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="mb-6">
-                <h4 className="font-semibold text-slate-800 mb-3">Overview</h4>
-                <p className="text-slate-700 leading-relaxed">{solutionData.proposedSolution.overview}</p>
-              </div>
-              
-              <div className="mb-6">
-                <h4 className="font-semibold text-slate-800 mb-3">Implementation Steps</h4>
+              <div className="mt-6">
+                <h4 className="font-semibold text-slate-800 mb-3">Proposed Solution</h4>
                 <div className="space-y-2">
-                  {solutionData.proposedSolution.implementation.map((step, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
-                      <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <p className="text-slate-700">{step}</p>
+                  {solutionData.applovaContext.recommendations && solutionData.applovaContext.recommendations.length > 0 ? (
+                    <div className="p-2 bg-blue-50 rounded-lg text-slate-700">
+                      {solutionData.applovaContext.recommendations[0]}
                     </div>
-                  ))}
+                  ) : (
+                    <div className="p-2 bg-blue-50 rounded-lg text-slate-700">No proposed solution available.</div>
+                  )}
                 </div>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-slate-800 mb-3">Expected Benefits</h4>
-                <div className="grid md:grid-cols-2 gap-2">
-                  {solutionData.proposedSolution.benefits.map((benefit, index) => (
-                    <Badge key={index} variant="secondary" className="bg-teal-100 text-teal-800 justify-start p-2">
-                      {benefit}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Key Takeaways */}
-          <Card className="border-purple-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
-              <CardTitle>Key Takeaways</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="space-y-3">
-                {solutionData.keyTakeaways.map((takeaway, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 bg-purple-50 rounded-lg">
-                    <div className="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {index + 1}
-                    </div>
-                    <p className="text-slate-700">{takeaway}</p>
-                  </div>
-                ))}
               </div>
             </CardContent>
           </Card>
