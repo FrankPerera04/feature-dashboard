@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,7 +10,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Search, TrendingUp, Users, Star, ExternalLink, ArrowLeft, Loader2 } from "lucide-react"
+import { Search, TrendingUp, Users, Star, ExternalLink, ArrowLeft, Loader2, Download, ArrowRight } from "lucide-react"
+import { useRouter } from "next/navigation"
+import jsPDF from "jspdf"
+import html2canvas from "html2canvas"
 
 interface CompetitorData {
   name: string
@@ -39,10 +42,12 @@ interface AnalysisResult {
 }
 
 export default function CompetitorAnalysisApp() {
+  const router = useRouter()
   const [featureTitle, setFeatureTitle] = useState("")
   const [featureDescription, setFeatureDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
+  const analysisRef = useRef<HTMLDivElement>(null)
 
   const realAnalysisAPI = async (title: string, description: string): Promise<AnalysisResult> => {
     const res = await fetch("/api/analyze", {
@@ -75,6 +80,52 @@ export default function CompetitorAnalysisApp() {
     setFeatureDescription("")
   }
 
+  const downloadPDF = async () => {
+    if (!analysisRef.current || !analysisResult) return
+
+    try {
+      const canvas = await html2canvas(analysisRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      })
+
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF('p', 'mm', 'a4')
+      const imgWidth = 210
+      const pageHeight = 295
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      let heightLeft = imgHeight
+
+      let position = 0
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight
+        pdf.addPage()
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
+      }
+
+      pdf.save(`${analysisResult.feature.title.replace(/\s+/g, '_')}_analysis.pdf`)
+    } catch (error) {
+      console.error('Error generating PDF:', error)
+    }
+  }
+
+  const generateSolution = () => {
+    if (analysisResult) {
+      const params = new URLSearchParams({
+        title: analysisResult.feature.title,
+        description: analysisResult.feature.description
+      })
+      router.push(`/solution?${params.toString()}`)
+    }
+  }
+
   if (analysisResult) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -94,7 +145,7 @@ export default function CompetitorAnalysisApp() {
             </p>
           </div>
 
-          <div className="grid gap-6">
+          <div ref={analysisRef} className="grid gap-6">
             {/* Market Insights */}
             <Card className="border-blue-100 shadow-lg">
               <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
@@ -237,6 +288,25 @@ export default function CompetitorAnalysisApp() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Action Buttons */}
+          <div className="mt-8 flex justify-center gap-4">
+            <Button
+              onClick={downloadPDF}
+              variant="outline"
+              className="border-blue-200 text-blue-700 hover:bg-blue-50"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download PDF Report
+            </Button>
+            <Button
+              onClick={generateSolution}
+              className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-medium py-3 px-8 text-lg"
+            >
+              Generate Solution
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </div>
         </div>
       </div>
     )
@@ -250,9 +320,9 @@ export default function CompetitorAnalysisApp() {
             <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <Search className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-slate-800 mb-2">Competitor Analysis Tool</h1>
+            <h1 className="text-4xl font-bold text-slate-800 mb-2">Smart Product Assistant</h1>
             <p className="text-lg text-slate-600">
-              Enter your feature details to get comprehensive competitor insights
+              BA dashboard to help implement new features for Applova.io
             </p>
           </div>
 
