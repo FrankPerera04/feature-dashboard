@@ -9,30 +9,32 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, FileText, User, CheckCircle, Download, Loader2, Home } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 
+interface UserStory {
+  asA: string;
+  iWant: string;
+  soThat: string;
+  acceptanceCriteria: string[];
+}
+
 interface UserStoryData {
   feature: {
-    title: string
-    description: string
-  }
-  userStory: {
-    asA: string
-    iWant: string
-    soThat: string
-    acceptanceCriteria: string[]
-  }
+    title: string;
+    description: string;
+  };
+  userStories: UserStory[];
   uiFlows: {
-    flowName: string
-    steps: string[]
-    screens: string[]
-  }[]
+    flowName: string;
+    steps: string[];
+    screens: string[];
+  }[];
   technicalRequirements: {
-    frontend: string[]
-    backend: string[]
-    database: string[]
-    integrations: string[]
-  }
-  testingScenarios: string[]
-  successMetrics: string[]
+    frontend: string[];
+    backend: string[];
+    database: string[];
+    integrations: string[];
+  };
+  testingScenarios: string[];
+  successMetrics: string[];
 }
 
 export default function UserStoryPage() {
@@ -144,43 +146,44 @@ export default function UserStoryPage() {
         </div>
 
         <div className="grid gap-6">
-          {/* User Story */}
-          <Card className="border-blue-100 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5" />
-                User Story
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-3 gap-6 mb-6">
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-semibold text-blue-800 mb-2">As a...</h4>
-                  <p className="text-slate-700">{userStoryData.userStory.asA}</p>
+          {/* User Stories */}
+          {userStoryData.userStories && userStoryData.userStories.length > 0 && userStoryData.userStories.map((story, idx) => (
+            <Card key={idx} className="border-blue-100 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                <CardTitle className="flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  User Story {userStoryData.userStories.length > 1 ? `#${idx + 1}` : ''}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid md:grid-cols-3 gap-6 mb-6">
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <h4 className="font-semibold text-blue-800 mb-2">As a...</h4>
+                    <p className="text-slate-700">{story.asA}</p>
+                  </div>
+                  <div className="p-4 bg-purple-50 rounded-lg">
+                    <h4 className="font-semibold text-purple-800 mb-2">I want to...</h4>
+                    <p className="text-slate-700">{story.iWant}</p>
+                  </div>
+                  <div className="p-4 bg-indigo-50 rounded-lg">
+                    <h4 className="font-semibold text-indigo-800 mb-2">So that...</h4>
+                    <p className="text-slate-700">{story.soThat}</p>
+                  </div>
                 </div>
-                <div className="p-4 bg-purple-50 rounded-lg">
-                  <h4 className="font-semibold text-purple-800 mb-2">I want to...</h4>
-                  <p className="text-slate-700">{userStoryData.userStory.iWant}</p>
+                <div>
+                  <h4 className="font-semibold text-slate-800 mb-3">Acceptance Criteria</h4>
+                  <div className="space-y-2">
+                    {story.acceptanceCriteria.map((criterion, index) => (
+                      <div key={index} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-slate-700">{criterion}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="p-4 bg-indigo-50 rounded-lg">
-                  <h4 className="font-semibold text-indigo-800 mb-2">So that...</h4>
-                  <p className="text-slate-700">{userStoryData.userStory.soThat}</p>
-                </div>
-              </div>
-              
-              <div>
-                <h4 className="font-semibold text-slate-800 mb-3">Acceptance Criteria</h4>
-                <div className="space-y-2">
-                  {userStoryData.userStory.acceptanceCriteria.map((criterion, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <p className="text-slate-700">{criterion}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          ))}
 
           {/* UI Flows */}
           <Card className="border-green-100 shadow-lg">

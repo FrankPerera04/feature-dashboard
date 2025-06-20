@@ -10,50 +10,7 @@ export async function POST(req: NextRequest) {
   try {
     const { featureTitle, featureDescription, solutionData, uiFlowData } = await req.json();
 
-    const prompt = `
-You are an expert product manager and technical writer specializing in restaurant Point of Sale (POS) systems. Create a comprehensive user story with UI flows for the feature described below, considering all the analysis data provided. Return the response in the following JSON format:
-
-{
-  "feature": {
-    "title": "...",
-    "description": "..."
-  },
-  "userStory": {
-    "asA": "...",
-    "iWant": "...",
-    "soThat": "...",
-    "acceptanceCriteria": ["..."]
-  },
-  "uiFlows": [
-    {
-      "flowName": "...",
-      "steps": ["..."],
-      "screens": ["..."]
-    }
-  ],
-  "technicalRequirements": {
-    "frontend": ["..."],
-    "backend": ["..."],
-    "database": ["..."],
-    "integrations": ["..."]
-  },
-  "testingScenarios": ["..."],
-  "successMetrics": ["..."]
-}
-
-Feature Title: ${featureTitle}
-Feature Description: ${featureDescription}
-Solution Data: ${JSON.stringify(solutionData, null, 2)}
-UI Flow Data: ${JSON.stringify(uiFlowData, null, 2)}
-
-Focus on:
-1. Creating a clear, actionable user story following the "As a... I want to... So that..." format
-2. Detailed acceptance criteria that can be used for testing
-3. Multiple UI flows covering different user scenarios
-4. Comprehensive technical requirements for implementation
-5. Testing scenarios that ensure quality
-6. Success metrics to measure the feature's impact
-`;
+    const prompt = `\nYou are an expert product manager and technical writer specializing in restaurant Point of Sale (POS) systems. Create a comprehensive set of user stories (at least 3) with UI flows for the feature described below, considering all the analysis data provided. Return the response in the following JSON format:\n\n{\n  \"feature\": {\n    \"title\": \"...\",\n    \"description\": \"...\"\n  },\n  \"userStories\": [\n    {\n      \"asA\": \"...\",\n      \"iWant\": \"...\",\n      \"soThat\": \"...\",\n      \"acceptanceCriteria\": [\"...\"]\n    }\n  ],\n  \"uiFlows\": [\n    {\n      \"flowName\": \"...\",\n      \"steps\": [\"...\"],\n      \"screens\": [\"...\"]\n    }\n  ],\n  \"technicalRequirements\": {\n    \"frontend\": [\"...\"],\n    \"backend\": [\"...\"],\n    \"database\": [\"...\"],\n    \"integrations\": [\"...\"]\n  },\n  \"testingScenarios\": [\"...\"],\n  \"successMetrics\": [\"...\"]\n}\n\nFeature Title: ${featureTitle}\nFeature Description: ${featureDescription}\nSolution Data: ${JSON.stringify(solutionData, null, 2)}\nUI Flow Data: ${JSON.stringify(uiFlowData, null, 2)}\n\nFocus on:\n1. Creating at least 3 clear, actionable user stories following the \"As a... I want to... So that...\" format\n2. Detailed acceptance criteria for each user story\n3. Multiple UI flows covering different user scenarios\n4. Comprehensive technical requirements for implementation\n5. Testing scenarios that ensure quality\n6. Success metrics to measure the feature's impact\n`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
