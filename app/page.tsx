@@ -21,9 +21,9 @@ interface CompetitorData {
   marketShare: number
   rating: number
   pricing: string
-  keyFeatures: string[]
-  strengths: string[]
-  weaknesses: string[]
+  userExperience: string
+  supportedUseCases: string[]
+  possibleLimitations: string[]
   website: string
 }
 
@@ -89,7 +89,7 @@ export default function CompetitorAnalysisApp() {
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff'
-      })
+      } as any)
 
       const imgData = canvas.toDataURL('image/png')
       const pdf = new jsPDF('p', 'mm', 'a4')
@@ -147,42 +147,40 @@ export default function CompetitorAnalysisApp() {
 
           <div ref={analysisRef} className="grid gap-6">
             {/* Market Insights */}
-            <Card className="border-blue-100 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
-                  Market Insights
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-3 gap-4 mb-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-700">
-                      {analysisResult.marketInsights.totalMarketSize}
+            <div className="flex justify-center mb-8 w-full">
+              <Card className="border-blue-100 shadow-lg w-full">
+                <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                  <CardTitle className="flex flex-col items-center justify-center font-bold text-2xl text-center w-full">
+                    <TrendingUp className="w-7 h-7 mb-1" />
+                    <span>Market Insights</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 w-full">
+                  {/* Key Market Trends First */}
+                  <div className="mb-4 w-full">
+                    <h4 className="font-semibold text-slate-800 mb-2">Key Market Trends</h4>
+                    <div className="flex flex-wrap gap-2 w-full">
+                      {analysisResult.marketInsights.keyTrends.map((trend, index) => (
+                        <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-800 justify-start p-2 whitespace-normal max-w-full">
+                          {trend}
+                        </Badge>
+                      ))}
                     </div>
-                    <div className="text-sm text-slate-600">Market Size</div>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <div className="text-2xl font-bold text-purple-700">{analysisResult.marketInsights.growthRate}</div>
-                    <div className="text-sm text-slate-600">Growth Rate</div>
+                  {/* Growth Rate and Number of Competitors */}
+                  <div className="grid md:grid-cols-2 gap-4 w-full">
+                    <div className="text-center p-4 bg-purple-50 rounded-lg w-full">
+                      <div className="text-2xl font-bold text-purple-700">{analysisResult.marketInsights.growthRate}</div>
+                      <div className="text-sm text-slate-600">Market Growth Rate</div>
+                    </div>
+                    <div className="text-center p-4 bg-indigo-50 rounded-lg w-full">
+                      <div className="text-2xl font-bold text-indigo-700">{analysisResult.competitors.length}</div>
+                      <div className="text-sm text-slate-600">Number of Competitors Using This Feature</div>
+                    </div>
                   </div>
-                  <div className="text-center p-4 bg-indigo-50 rounded-lg">
-                    <div className="text-2xl font-bold text-indigo-700">{analysisResult.competitors.length}</div>
-                    <div className="text-sm text-slate-600">Key Competitors</div>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-800 mb-2">Key Market Trends</h4>
-                  <div className="grid md:grid-cols-2 gap-2">
-                    {analysisResult.marketInsights.keyTrends.map((trend, index) => (
-                      <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-800 justify-start p-2">
-                        {trend}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Competitors */}
             <div className="grid gap-4">
@@ -208,40 +206,34 @@ export default function CompetitorAnalysisApp() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
                       <div>
-                        <h4 className="font-semibold text-slate-800 mb-2">Key Features</h4>
-                        <div className="space-y-1">
-                          {competitor.keyFeatures.map((feature, idx) => (
-                            <Badge key={idx} variant="outline" className="mr-1 mb-1 border-blue-200 text-blue-700">
-                              {feature}
-                            </Badge>
-                          ))}
-                        </div>
+                        <h4 className="font-semibold text-slate-800 mb-1">User Experience</h4>
+                        <p className="text-slate-700 text-sm">{typeof competitor.userExperience === 'string' ? competitor.userExperience : 'No user experience information available.'}</p>
                       </div>
                       <div>
-                        <div className="mb-4">
-                          <h4 className="font-semibold text-green-700 mb-2">Strengths</h4>
-                          <ul className="text-sm text-slate-600 space-y-1">
-                            {competitor.strengths.map((strength, idx) => (
-                              <li key={idx} className="flex items-start gap-2">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                                {strength}
-                              </li>
+                        <h4 className="font-semibold text-slate-800 mb-1">Supported Use Cases</h4>
+                        {Array.isArray(competitor.supportedUseCases) && competitor.supportedUseCases.length > 0 ? (
+                          <ul className="list-disc list-inside text-slate-700 text-sm">
+                            {competitor.supportedUseCases.map((useCase, idx) => (
+                              <li key={idx}>{useCase}</li>
                             ))}
                           </ul>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-red-700 mb-2">Weaknesses</h4>
-                          <ul className="text-sm text-slate-600 space-y-1">
-                            {competitor.weaknesses.map((weakness, idx) => (
-                              <li key={idx} className="flex items-start gap-2">
-                                <div className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                                {weakness}
-                              </li>
+                        ) : (
+                          <p className="text-slate-700 text-sm">No supported use cases available.</p>
+                        )}
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-slate-800 mb-1">Possible Limitations</h4>
+                        {Array.isArray(competitor.possibleLimitations) && competitor.possibleLimitations.length > 0 ? (
+                          <ul className="list-disc list-inside text-slate-700 text-sm">
+                            {competitor.possibleLimitations.map((limitation, idx) => (
+                              <li key={idx}>{limitation}</li>
                             ))}
                           </ul>
-                        </div>
+                        ) : (
+                          <p className="text-slate-700 text-sm">No limitations information available.</p>
+                        )}
                       </div>
                     </div>
                     <Separator className="my-4" />
@@ -265,28 +257,6 @@ export default function CompetitorAnalysisApp() {
                 </Card>
               ))}
             </div>
-
-            {/* Recommendations */}
-            <Card className="border-green-100 shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-green-500 to-teal-600 text-white">
-                <CardTitle>Strategic Recommendations</CardTitle>
-                <CardDescription className="text-green-100">
-                  Based on competitor analysis and market insights
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3">
-                  {analysisResult.recommendations.map((recommendation, index) => (
-                    <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
-                      <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <p className="text-slate-700">{recommendation}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Action Buttons */}
